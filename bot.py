@@ -131,7 +131,7 @@ class DallEDiscordBot(commands.Bot):
                     filename = f'{str(random.randint(0, 9999999999))}.png'
                     output_image.save(filename)
                     file = discord.File(filename)
-                    await ctx.send(file=file)
+                    await ctx.reply(file=file)
 
             except Dalle.DallENoImagesReturned:
                 await ctx.send(f"DALL·E mini api returned no images found for {query}.")
