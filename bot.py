@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Union
 from PIL import Image
 import random
+from dotenv import load_dotenv
 
 # Discord
 import discord
@@ -178,7 +179,8 @@ async def background_task() -> None:
     """
     pass
 
-
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 bot = DallEDiscordBot(command_prefix=c['bot_prefix'], self_bot=False)
 bot.loop.create_task(background_task())
-bot.run(c['discord_token'])
+bot.run(TOKEN)
