@@ -55,7 +55,7 @@ class DallE(AsyncClass.AsyncClass):
         self.prompt = prompt
         self.author = author
 
-    async def generate(self) -> list[GeneratedImage]:
+    async def generate(self):
         """
         Makes an api request to dall-e endpoint and returns the images
         :return: list

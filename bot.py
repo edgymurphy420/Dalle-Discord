@@ -6,6 +6,8 @@ import asyncio
 import os
 from pathlib import Path
 from typing import Union
+from PIL import Image
+import random
 
 # Discord
 import discord
@@ -116,9 +118,19 @@ class DallEDiscordBot(commands.Bot):
                 generated = await dall_e.generate()
 
                 if len(generated) > 0:
-                    embed = self.create_embed(ctx.guild)
-                    await ctx.send(embed=embed)
-
+                    sample_image = Image.open(generated[0].path)
+                    width, height = sample_image.size
+                    output_image = Image.new("RGBA", (3 * width, 3 * height), (0, 0, 0, 0))
+                    for i in range(len(generated)):
+                        current_image = Image.open(generated[i].path)
+                        for j in range(width):
+                            for k in range(height):
+                                current_image_pixel = current_image.getpixel((j, k))
+                                output_image.putpixel(((i % 3 * width) + j, (i // 3 * height) + k), current_image_pixel)
+                    filename = f'{str(random.randint(0, 9999999999))}.png'
+                    output_image.save(filename)
+                    file = discord.File(filename)
+                    await ctx.send(file=file)
                     for image in generated:
                         file = discord.File(image.path, filename=image.image_name)
                         await ctx.send(file=file)
