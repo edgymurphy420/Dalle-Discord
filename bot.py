@@ -132,9 +132,6 @@ class DallEDiscordBot(commands.Bot):
                     output_image.save(filename)
                     file = discord.File(filename)
                     await ctx.send(file=file)
-                    for image in generated:
-                        file = discord.File(image.path, filename=image.image_name)
-                        await ctx.send(file=file)
 
             except Dalle.DallENoImagesReturned:
                 await ctx.send(f"DALL·E mini api returned no images found for {query}.")
